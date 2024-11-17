@@ -1,5 +1,6 @@
 package lu.uni;
 
+import lu.uni.database.Database;
 import lu.uni.user.Client;
 import lu.uni.user.Employee;
 

@@ -1,4 +1,4 @@
-package lu.uni;
+package lu.uni.risk;
 
 public class RiskScore {
     private int riskScore;
