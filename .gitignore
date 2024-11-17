@@ -1,0 +1,8 @@
+# Maven specific files
+/target/
+/*.log
+/.settings/
+/.classpath
+/.project
+/mvnw
+/mvnw.cmd
