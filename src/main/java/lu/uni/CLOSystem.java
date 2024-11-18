@@ -5,6 +5,7 @@ import lu.uni.risk.RiskScore;
 import lu.uni.user.Client;
 import lu.uni.user.Employee;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class CLOSystem {
@@ -31,10 +32,10 @@ public class CLOSystem {
     }
 
     public void calculateRisk(Client client) {
-        int risk = client.getBankAccount().getBalance() < 1000 ? 10 : 1;
-        RiskScore riskScore = new RiskScore(client.getId(), risk);
-        client.addRiskScore(riskScore);
-        db.log("Risk calculated for client: " + client.getId());
+        //BigDecimal risk = client.getBankAccount().getBalance() < 1000 ? 10 : 1;
+        //RiskScore riskScore = new RiskScore(client.getId(), risk);
+        //client.addRiskScore(riskScore);
+        //db.log("Risk calculated for client: " + client.getId());
     }
 
     public void scheduleReview(Client client, Date date) {

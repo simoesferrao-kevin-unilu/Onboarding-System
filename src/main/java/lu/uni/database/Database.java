@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.apache.logging.log4j.*;
 
 public class Database {
@@ -40,11 +41,11 @@ public class Database {
             }
 
             try (PreparedStatement clientStatement = connection.prepareStatement(insertClientSQL)) {
-                clientStatement.setInt(1, client.getId());
+                clientStatement.setString(1, client.getId());
                 clientStatement.setString(2, client.getName());
                 clientStatement.setDate(3, client.getBirthDate());
                 clientStatement.setInt(4, addressId);
-                clientStatement.setFloat(5, client.getBankAccount().getBalance());
+                clientStatement.setBigDecimal(5, client.getBankAccount().getBalance());
                 clientStatement.executeUpdate();
             }
             
@@ -56,7 +57,8 @@ public class Database {
     public Client retrieveClientData(String clientId) {
         String clientQuery = "SELECT c.id, c.name, c.birth_date, c.bank_account_balance, " +
                              "a.street_number, a.street, a.zip, a.country " +
-                             "FROM clients c JOIN addresses a ON c.address_id = a.id " +
+                             "FROM clients c " + 
+                             "JOIN addresses a ON c.address_id = a.id " +
                              "WHERE c.id = ?";
         
         try (Connection connection = DatabaseConnection.getConnection();
@@ -73,7 +75,7 @@ public class Database {
 
                 Address address = new Address(streetNum, street, zip, country);
 
-                int id = rs.getInt("id");
+                String id = rs.getString("id");
                 String name = rs.getString("name");
                 Date bdate = rs.getDate("birth_date");
 

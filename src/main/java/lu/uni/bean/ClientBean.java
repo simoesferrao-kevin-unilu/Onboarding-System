@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 @Named("clientBean")
 public class ClientBean {
 
-    private int id;
+    private String id;
     private String name;
     private Date birthDate;
     private Address address;

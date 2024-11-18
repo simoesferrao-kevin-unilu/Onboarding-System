@@ -1,11 +1,29 @@
 package lu.uni.client;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "addresses")
 public class Address {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "street_number", nullable = false)
     private int streetNumber;
+
+    @Column(nullable = false)
     private String street;
+
+    @Column(nullable = false)
     private int zip;
+
+    @Column(nullable = false)
     private String country;
+
+    
+    public Address() {}
 
     public Address(int streetNumber, String street, int zip, String country) {
         this.streetNumber = streetNumber;
@@ -44,5 +62,13 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }

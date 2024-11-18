@@ -20,7 +20,7 @@ public class RiskScoreBean {
     public void getAlRiskScores() {
         Client client = database.retrieveClientData(clientId);
         if (client != null) {
-            alRiskScores = client.getAlRiskScores();
+            alRiskScores = client.getRiskScores();
         }
     }
 

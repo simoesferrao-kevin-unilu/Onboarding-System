@@ -1,30 +1,48 @@
 package lu.uni.client;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "bank_accounts")
 public class BankAccount {
 
-    private float balance;
-    private ArrayList<String> transactionsLog;
+    @Id
+    private String id;
 
-    public BankAccount(int balance) {
+    @Column(name = "bank_account_balance", nullable = false)
+    private BigDecimal balance;
+
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
+    private ArrayList<TransactionLog> transactionLogs = new ArrayList<>();
+
+
+    public BankAccount(BigDecimal balance) {
         this.balance = balance;
-        this.transactionsLog = new ArrayList<>();
     }
 
-    public float getBalance() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public ArrayList<String> getTransactionsLog() {
-        return transactionsLog;
+    public ArrayList<TransactionLog> getTransactionLogs() {
+        return transactionLogs;
     }
 
-    public void addTransaction(String transaction) {
-        this.transactionsLog.add(transaction);
+    public void setTransactionLogs(ArrayList<TransactionLog> transactionLogs) {
+        this.transactionLogs = transactionLogs;
     }
 }

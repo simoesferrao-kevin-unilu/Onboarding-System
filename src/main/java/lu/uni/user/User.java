@@ -3,25 +3,41 @@ package lu.uni.user;
 import lu.uni.client.Address;
 
 import java.sql.Date;
+import jakarta.persistence.*;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "users")
 public abstract class User {
     
-    private int id;
-    private String name;
-    private Date birthDate;
-    private Address address;
+    @Id
+    protected String id; // UUID
 
-    public User(int id, String name, Date birthDate, Address address) {
+    @Column(nullable = false)
+    protected String name;
+
+    @Column(name = "birth_date", nullable = false)
+    protected Date birthDate;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    protected Address address;
+
+
+    protected User() {}
+
+    public User(String id, String name, Date birthDate, Address address) {
+        this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,11 +62,6 @@ public abstract class User {
     }
 
     public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public void updateData(String name, Address address) {
-        this.name = name;
         this.address = address;
     }
 }
