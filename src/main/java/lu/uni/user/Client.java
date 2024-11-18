@@ -2,30 +2,31 @@ package lu.uni.user;
 
 import lu.uni.client.Address;
 import lu.uni.client.BankAccount;
+import lu.uni.risk.RiskScore;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Client extends User {
+    
     private BankAccount bankAccount;
-    private List<Integer> riskScores;
+    private ArrayList<RiskScore> alRiskScores;
 
-    public Client(String id, String name, Date birthDate, Address address, BankAccount bankAccount) {
+    public Client(int id, String name, Date birthDate, Address address) {
         super(id, name, birthDate, address);
-        this.bankAccount = bankAccount;
-        this.riskScores = new ArrayList<>();
+        this.bankAccount = new BankAccount(0);
+        this.alRiskScores = new ArrayList<>();
     }
 
     public BankAccount getBankAccount() {
         return bankAccount;
     }
 
-    public List<Integer> getRiskScores() {
-        return riskScores;
+    public ArrayList<RiskScore> getAlRiskScores() {
+        return alRiskScores;
     }
 
-    public void addRiskScore(int riskScore) {
-        this.riskScores.add(riskScore);
+    public void addRiskScore(RiskScore riskScore) {
+        this.alRiskScores.add(riskScore);
     }
 }

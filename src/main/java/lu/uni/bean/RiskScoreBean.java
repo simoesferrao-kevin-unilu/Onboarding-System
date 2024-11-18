@@ -5,27 +5,22 @@ import lu.uni.risk.RiskScore;
 import lu.uni.user.Client;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.inject.Named;
-import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 @RequestScoped
-@Named("loginBean")
+@Named("riskScoreBean")
 public class RiskScoreBean {
+
     private String clientId;
-    private List<RiskScore> riskScores;
+    private ArrayList<RiskScore> alRiskScores;
 
     private Database database = new Database();
 
-    public void getRiskScores() {
+    public void getAlRiskScores() {
         Client client = database.retrieveClientData(clientId);
         if (client != null) {
-            riskScores = client.getRiskScores();
+            alRiskScores = client.getAlRiskScores();
         }
     }
 

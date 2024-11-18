@@ -1,6 +1,7 @@
 package lu.uni.client;
 
 public class Address {
+    
     private int streetNumber;
     private String street;
     private int zip;

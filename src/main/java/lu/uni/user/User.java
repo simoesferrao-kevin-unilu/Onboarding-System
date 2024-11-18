@@ -2,26 +2,26 @@ package lu.uni.user;
 
 import lu.uni.client.Address;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class User {
-    private String id;
+public abstract class User {
+    
+    private int id;
     private String name;
     private Date birthDate;
     private Address address;
 
-    public User(String id, String name, Date birthDate, Address address) {
-        this.id = id;
+    public User(int id, String name, Date birthDate, Address address) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,18 +1,18 @@
 package lu.uni.client;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BankAccount {
-    private int balance;
-    private List<String> transactionsLog;
+
+    private float balance;
+    private ArrayList<String> transactionsLog;
 
     public BankAccount(int balance) {
         this.balance = balance;
         this.transactionsLog = new ArrayList<>();
     }
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
@@ -20,7 +20,7 @@ public class BankAccount {
         this.balance = balance;
     }
 
-    public List<String> getTransactionsLog() {
+    public ArrayList<String> getTransactionsLog() {
         return transactionsLog;
     }
 

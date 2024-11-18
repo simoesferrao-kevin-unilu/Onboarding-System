@@ -1,6 +1,7 @@
 package lu.uni;
 
 import lu.uni.database.Database;
+import lu.uni.risk.RiskScore;
 import lu.uni.user.Client;
 import lu.uni.user.Employee;
 
@@ -8,7 +9,7 @@ import java.util.*;
 
 public class CLOSystem {
     private Database db;
-    private List<Employee> alAuthorizedEmployees;
+    private ArrayList<Employee> alAuthorizedEmployees;
 
     public CLOSystem(Database db) {
         this.db = db;
@@ -31,7 +32,8 @@ public class CLOSystem {
 
     public void calculateRisk(Client client) {
         int risk = client.getBankAccount().getBalance() < 1000 ? 10 : 1;
-        client.addRiskScore(risk);
+        RiskScore riskScore = new RiskScore(client.getId(), risk);
+        client.addRiskScore(riskScore);
         db.log("Risk calculated for client: " + client.getId());
     }
 
