@@ -21,8 +21,6 @@ public class MainTest {
         try (Connection connection = DatabaseConnection.getConnection()) {
             if (connection != null) {
                 System.out.println("Connected to the database successfully!");
-            } else {
-                System.out.println("Failed to connect to the database.");
             }
         } catch (Exception e) {
             e.printStackTrace();
