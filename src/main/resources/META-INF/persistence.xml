@@ -20,11 +20,11 @@
             <property name="jakarta.persistence.jdbc.password" value="admin" />
 
             <!-- Hibernate settings -->
+            <property name="jakarta.persistence.provider" value="org.hibernate.jpa.HibernatePersistenceProvider" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.type.json_format_mapper" value="disabled"/>
         </properties>
     </persistence-unit>
 </persistence>
