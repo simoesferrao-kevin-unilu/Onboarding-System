@@ -1,7 +1,6 @@
 package lu.uni;
 
 import lu.uni.user.Client;
-import lu.uni.user.Employee;
 import lu.uni.client.Address;
 import lu.uni.client.BankAccount;
 import lu.uni.dao.ClientDAO;
@@ -30,8 +29,35 @@ public class MainTest {
         }
 
 
+        try {
+            ClientDAO clientDAO = new ClientDAO();
+    
+            // Create an Address object
+            Address address = new Address(12, "Main Street", 12345, "Luxembourg");
+            Client client = new Client("James B.", Date.valueOf("1980-05-15"), address);
+    
+            // Add the client to the database
+            clientDAO.addClient(client);
+            System.out.println("Client added successfully!");
+    
+            // Retrieve the client by ID
+            /*Client retrievedClient = clientDAO.getClientById(1);
+            if (retrievedClient != null) {
+                System.out.println("Retrieved Client: " + retrievedClient.getName());
+            }
+    
+            // Get all clients
+            ArrayList<Client> clients = clientDAO.getAllClients();
+            for (Client c : clients) {
+                System.out.println("Client: " + c.getName());
+            }*/
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+
         // Client management testing
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankingPU");
+        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankingPU");
         EntityManager em = emf.createEntityManager();
         ClientDAO clientDAO = new ClientDAO(em);
 
@@ -62,6 +88,6 @@ public class MainTest {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
+        emf.close();*/
     }
 }
