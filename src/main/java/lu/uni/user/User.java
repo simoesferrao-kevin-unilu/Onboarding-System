@@ -11,7 +11,8 @@ import jakarta.persistence.*;
 public abstract class User {
     
     @Id
-    protected String id; // UUID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
 
     @Column(nullable = false)
     protected String name;
@@ -26,18 +27,17 @@ public abstract class User {
 
     protected User() {}
 
-    public User(String id, String name, Date birthDate, Address address) {
-        this.id = id;
+    public User(String name, Date birthDate, Address address) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

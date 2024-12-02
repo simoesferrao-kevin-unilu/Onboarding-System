@@ -38,18 +38,18 @@ public class ManagementDAO {
 
             // Insert bank account
             try (PreparedStatement accountStmt = connection.prepareStatement(accountSql)) {
-                accountStmt.setString(1, bankAccount.getId());
+                accountStmt.setInt(1, bankAccount.getId());
                 accountStmt.setBigDecimal(2, bankAccount.getBalance());
                 accountStmt.executeUpdate();
             }
 
             // Insert client
             try (PreparedStatement clientStmt = connection.prepareStatement(clientSql)) {
-                clientStmt.setString(1, client.getId());
+                clientStmt.setInt(1, client.getId());
                 clientStmt.setString(2, client.getName());
                 clientStmt.setDate(3, client.getBirthDate());
                 clientStmt.setInt(4, address.getId());
-                clientStmt.setString(5, bankAccount.getId());
+                clientStmt.setInt(5, bankAccount.getId());
                 clientStmt.executeUpdate();
             }
 

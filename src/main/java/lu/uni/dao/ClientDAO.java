@@ -43,11 +43,11 @@ public class ClientDAO {
     
             // Insert client
             try (PreparedStatement clientStmt = connection.prepareStatement(insertClientSQL)) {
-                clientStmt.setString(1, client.getId());
+                clientStmt.setInt(1, client.getId());
                 clientStmt.setString(2, client.getName());
                 clientStmt.setDate(3, client.getBirthDate());
                 clientStmt.setInt(4, addressId);
-                clientStmt.setString(5, client.getBankAccount().getId()); // Ensure BankAccount ID exists
+                clientStmt.setInt(5, client.getBankAccount().getId()); // Ensure BankAccount ID exists
                 clientStmt.executeUpdate();
             }
         }

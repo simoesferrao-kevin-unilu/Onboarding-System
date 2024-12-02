@@ -40,13 +40,12 @@ public class MainTest {
         em.persist(address);
         em.getTransaction().commit();
 
-        BankAccount bankAccount = new BankAccount(BigDecimal.valueOf(1000));
+        BankAccount bankAccount = new BankAccount();
         em.getTransaction().begin();
         em.persist(bankAccount);
         em.getTransaction().commit();
 
         Client client = new Client(
-            UUID.randomUUID().toString(),
             "John Doe",
             Date.valueOf(LocalDate.of(1990, 1, 1)),
             address

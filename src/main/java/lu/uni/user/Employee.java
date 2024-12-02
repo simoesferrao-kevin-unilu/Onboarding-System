@@ -16,8 +16,8 @@ public class Employee extends User {
 
     public Employee() {}
 
-    public Employee(String id, String name, Date birthDate, Address address, String accessKey) {
-        super(id, name, birthDate, address);
+    public Employee(int id, String name, Date birthDate, Address address, String accessKey) {
+        super(name, birthDate, address);
         this.accessKey = accessKey;
     }
 

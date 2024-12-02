@@ -21,7 +21,7 @@ public class ClientBean {
     private Database database = new Database();
 
     public void saveClient() {
-        Client client = new Client(id, name, birthDate, address);
+        Client client = new Client(name, birthDate, address);
         database.saveClientData(client);
     }
 
