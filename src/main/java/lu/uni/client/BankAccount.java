@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 public class BankAccount {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "bank_account_balance", nullable = false)

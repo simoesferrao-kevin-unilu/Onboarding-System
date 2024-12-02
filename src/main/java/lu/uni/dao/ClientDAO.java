@@ -19,19 +19,40 @@ public class ClientDAO {
     }
 
     public void addClient(Client client) throws SQLException {
-        String sql = "INSERT INTO clients (id, name, birth_date, address_id, bank_account_id) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, client.getId());
-            statement.setString(2, client.getName());
-            statement.setDate(3, client.getBirthDate());
-            statement.setInt(4, client.getAddress().getId());
-            statement.setString(5, client.getBankAccount().getId());
-            statement.executeUpdate();
+        String insertAddressSQL = "INSERT INTO addresses (street_number, street, zip, country) VALUES (?, ?, ?, ?)";
+        String insertClientSQL = "INSERT INTO clients (id, name, birth_date, address_id, bank_account_id) VALUES (?, ?, ?, ?, ?)";
+    
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            // Insert address
+            int addressId;
+            try (PreparedStatement addressStmt = connection.prepareStatement(insertAddressSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                addressStmt.setInt(1, client.getAddress().getStreetNumber());
+                addressStmt.setString(2, client.getAddress().getStreet());
+                addressStmt.setInt(3, client.getAddress().getZip());
+                addressStmt.setString(4, client.getAddress().getCountry());
+                addressStmt.executeUpdate();
+    
+                try (ResultSet generatedKeys = addressStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        addressId = generatedKeys.getInt(1);
+                    } else {
+                        throw new SQLException("Address insertion failed, no ID obtained.");
+                    }
+                }
+            }
+    
+            // Insert client
+            try (PreparedStatement clientStmt = connection.prepareStatement(insertClientSQL)) {
+                clientStmt.setString(1, client.getId());
+                clientStmt.setString(2, client.getName());
+                clientStmt.setDate(3, client.getBirthDate());
+                clientStmt.setInt(4, addressId);
+                clientStmt.setString(5, client.getBankAccount().getId()); // Ensure BankAccount ID exists
+                clientStmt.executeUpdate();
+            }
         }
     }
+    
 
     public Client getClientById(String clientId) throws SQLException {
         String sql = "SELECT * FROM clients WHERE id = ?";
