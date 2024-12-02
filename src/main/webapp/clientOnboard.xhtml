@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:h="jakarta.faces.html"
+  xmlns:f="jakarta.faces.core"
+  xml:lang="en">
+
+    <ui:composition template="templates/basic_template.xhtml">
+        <ui:define name="title"> Client Onboarding </ui:define>
+        <ui:define name="top"> Client Onboarding </ui:define>
+
+        <ui:define name="content">
+            <h:form>
+                <h:outputLabel value="Name: " />
+                <h:inputText value="#{clientBean.name}" required="true" />
+
+                <h:outputLabel value="Date of Birth: " />
+                <h:inputText value="#{clientBean.birthDate}" required="true" />
+
+                <h:outputLabel value="Street: " />
+                <h:inputText value="#{clientBean.address.street}" />
+
+                <h:outputLabel value="Street Number: " />
+                <h:inputText value="#{clientBean.address.streetNumber}" />
+
+                <h:outputLabel value="ZIP: " />
+                <h:inputText value="#{clientBean.address.zip}" />
+
+                <h:outputLabel value="Country: " />
+                <h:inputText value="#{clientBean.address.country}" />
+
+                <h:commandButton value="Submit" action="#{clientBean.saveClient}" />
+            </h:form>
+
+            <h:panelGroup rendered="#{not empty facesContext.messages}">
+                <h:messages />
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

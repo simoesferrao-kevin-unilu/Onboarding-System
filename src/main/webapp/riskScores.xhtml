@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:h="jakarta.faces.html"
+  xmlns:f="jakarta.faces.core"
+  xml:lang="en">
+
+    <ui:composition template="templates/basic_template.xhtml">
+        <ui:define name="title"> Risk Scoring </ui:define>
+        <ui:define name="top"> Risk Scoring </ui:define>
+
+        <ui:define name="content">
+            <h:form>
+                <h:outputLabel value="Client ID: " />
+                <h:inputText value="#{riskScoreBean.clientId}" required="true" />
+
+                <h:commandButton value="Get Risk Scores" action="#{riskScoreBean.getRiskScores}" />
+
+                <h:dataTable value="#{riskScoreBean.riskScores}" var="score">
+                    <h:column>
+                        <f:facet name="header">Risk Score</f:facet>
+                        #{score.riskScore}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Date</f:facet>
+                        #{score.date}
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+
+            <h:panelGroup rendered="#{not empty facesContext.messages}">
+                <h:messages />
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
