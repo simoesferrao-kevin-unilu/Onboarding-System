@@ -41,7 +41,7 @@ public class Database {
             }
 
             try (PreparedStatement clientStatement = connection.prepareStatement(insertClientSQL)) {
-                clientStatement.setString(1, client.getId());
+                clientStatement.setInt(1, client.getId());
                 clientStatement.setString(2, client.getName());
                 clientStatement.setDate(3, client.getBirthDate());
                 clientStatement.setInt(4, addressId);
@@ -75,11 +75,12 @@ public class Database {
 
                 Address address = new Address(streetNum, street, zip, country);
 
-                String id = rs.getString("id");
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 Date bdate = rs.getDate("birth_date");
 
-                Client client = new Client(id, name, bdate, address);
+                Client client = new Client(name, bdate, address);
+                client.setId(id);
 
                 return client;
             }

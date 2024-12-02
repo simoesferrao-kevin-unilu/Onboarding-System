@@ -23,9 +23,9 @@ public class Client extends User {
 
     public Client() {}
 
-    public Client(String id, String name, Date birthDate, Address address) {
-        super(id, name, birthDate, address);
-        this.bankAccount = new BankAccount(BigDecimal.valueOf(0));
+    public Client(String name, Date birthDate, Address address) {
+        super(name, birthDate, address);
+        this.bankAccount = new BankAccount();
     }
 
     public BankAccount getBankAccount() {
