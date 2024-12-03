@@ -2,7 +2,7 @@ package lu.uni.database;
 
 import lu.uni.client.Address;
 import lu.uni.user.Client;
-import lu.uni.user.User;
+import lu.uni.user.Employee;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -95,7 +95,7 @@ public class Database {
         logger.info(activity);
     }
 
-    public boolean checkAccess(User user) {
+    public boolean checkAccess(Employee employee) {
         return true;
     }
 
