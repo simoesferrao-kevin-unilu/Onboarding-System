@@ -8,23 +8,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import jakarta.persistence.EntityManager;
 
 public class ClientDAO {
-    
-    private EntityManager em;
 
-    public ClientDAO(EntityManager em) {
-        this.em = em;
+    public ClientDAO() {
     }
 
     public void addClient(Client client) throws SQLException {
         String insertAddressSQL = "INSERT INTO addresses (street_number, street, zip, country) VALUES (?, ?, ?, ?)";
-        String insertClientSQL = "INSERT INTO clients (id, name, birth_date, address_id, bank_account_id) VALUES (?, ?, ?, ?, ?)";
+        String insertBankAccountSQL = "INSERT INTO bank_accounts (bank_account_balance) VALUES (?)";
+        String insertClientSQL = "INSERT INTO clients (name, birth_date, address_id, bank_account_id) VALUES (?, ?, ?, ?)";
     
         try (Connection connection = DatabaseConnection.getConnection()) {
+            connection.setAutoCommit(false); // Start transaction
+    
+            int addressId = 0;
+            int bankAccountId = 0;
+    
             // Insert address
-            int addressId;
             try (PreparedStatement addressStmt = connection.prepareStatement(insertAddressSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 addressStmt.setInt(1, client.getAddress().getStreetNumber());
                 addressStmt.setString(2, client.getAddress().getStreet());
@@ -34,24 +35,42 @@ public class ClientDAO {
     
                 try (ResultSet generatedKeys = addressStmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        addressId = generatedKeys.getInt(1);
+                        addressId = generatedKeys.getInt(1); // Get generated address ID
                     } else {
                         throw new SQLException("Address insertion failed, no ID obtained.");
                     }
                 }
             }
     
+            // Insert bank account
+            try (PreparedStatement bankAccountStmt = connection.prepareStatement(insertBankAccountSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                bankAccountStmt.setBigDecimal(1, client.getBankAccount().getBalance());
+                bankAccountStmt.executeUpdate();
+    
+                try (ResultSet generatedKeys = bankAccountStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        bankAccountId = generatedKeys.getInt(1); // Get generated bank account ID
+                    } else {
+                        throw new SQLException("Bank account insertion failed, no ID obtained.");
+                    }
+                }
+            }
+    
             // Insert client
             try (PreparedStatement clientStmt = connection.prepareStatement(insertClientSQL)) {
-                clientStmt.setInt(1, client.getId());
-                clientStmt.setString(2, client.getName());
-                clientStmt.setDate(3, client.getBirthDate());
-                clientStmt.setInt(4, addressId);
-                clientStmt.setInt(5, client.getBankAccount().getId()); // Ensure BankAccount ID exists
+                clientStmt.setString(1, client.getName());
+                clientStmt.setDate(2, client.getBirthDate());
+                clientStmt.setInt(3, addressId); // Use generated address ID
+                clientStmt.setInt(4, bankAccountId); // Use generated bank account ID
                 clientStmt.executeUpdate();
             }
+    
+            connection.commit(); // Commit transaction
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
-    }
+    }    
     
 
     public Client getClientById(String clientId) throws SQLException {
