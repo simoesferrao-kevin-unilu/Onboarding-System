@@ -1,9 +1,9 @@
 package lu.uni;
 
-import lu.uni.database.Database;
-import lu.uni.risk.RiskScore;
-import lu.uni.user.Client;
-import lu.uni.user.Employee;
+import lu.uni.entities.database.Database;
+import lu.uni.entities.risk.RiskScore;
+import lu.uni.entities.user.Client;
+import lu.uni.entities.user.Employee;
 
 import java.math.BigDecimal;
 import java.util.*;

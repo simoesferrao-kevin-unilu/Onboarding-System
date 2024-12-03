@@ -1,37 +1,34 @@
-package lu.uni.user;
+package lu.uni.entities.user;
 
-import lu.uni.client.Address;
-import lu.uni.client.BankAccount;
-import lu.uni.risk.RiskScore;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.client.BankAccount;
+import lu.uni.entities.risk.RiskScore;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clients")
-public class Client {
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int id;
+    private int id;
 
-    @Column(nullable = false)
-    protected String name;
+    private String name;
 
-    @Column(name = "birth_date", nullable = false)
-    protected Date birthDate;
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    protected Address address;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     @OneToOne
-    @JoinColumn(name = "bank_account_id", referencedColumnName = "id")
     private BankAccount bankAccount;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<RiskScore> riskScores = new ArrayList<>();
 
 

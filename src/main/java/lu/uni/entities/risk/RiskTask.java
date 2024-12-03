@@ -1,4 +1,4 @@
-package lu.uni.risk;
+package lu.uni.entities.risk;
 
 public class RiskTask implements Runnable {
     

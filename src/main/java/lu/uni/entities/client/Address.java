@@ -1,28 +1,21 @@
-package lu.uni.client;
+package lu.uni.entities.client;
+
+import java.io.Serializable;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "addresses")
-public class Address {
-    
+public class Address implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "street_number", nullable = false)
     private int streetNumber;
-
-    @Column(nullable = false)
     private String street;
-
-    @Column(nullable = false)
     private int zip;
-
-    @Column(nullable = false)
     private String country;
 
-    
     public Address() {}
 
     public Address(int streetNumber, String street, int zip, String country) {

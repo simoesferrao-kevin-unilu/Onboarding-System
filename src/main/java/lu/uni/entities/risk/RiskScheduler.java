@@ -1,4 +1,4 @@
-package lu.uni.risk;
+package lu.uni.entities.risk;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

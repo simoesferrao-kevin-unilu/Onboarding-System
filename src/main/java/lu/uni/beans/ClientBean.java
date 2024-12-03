@@ -1,8 +1,8 @@
-package lu.uni.bean;
+package lu.uni.beans;
 
-import lu.uni.client.Address;
-import lu.uni.database.Database;
-import lu.uni.user.Client;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.database.Database;
+import lu.uni.entities.user.Client;
 
 import java.sql.Date;
 import jakarta.enterprise.context.RequestScoped;

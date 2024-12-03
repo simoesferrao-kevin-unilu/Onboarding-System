@@ -1,4 +1,4 @@
-package lu.uni.database;
+package lu.uni.entities.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

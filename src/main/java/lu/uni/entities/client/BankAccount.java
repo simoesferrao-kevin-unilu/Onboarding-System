@@ -1,4 +1,4 @@
-package lu.uni.client;
+package lu.uni.entities.client;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

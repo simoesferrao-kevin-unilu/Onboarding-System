@@ -5,12 +5,12 @@
              version="3.0">
 
     <persistence-unit name="BankingPU" transaction-type="RESOURCE_LOCAL">
-        <class>lu.uni.user.Client</class>
-        <class>lu.uni.user.Employee</class>
-        <class>lu.uni.risk.RiskScore</class>
-        <class>lu.uni.client.Address</class>
-        <class>lu.uni.client.BankAccount</class>
-        <class>lu.uni.client.TransactionLog</class>
+        <class>lu.uni.entities.user.Client</class>
+        <class>lu.uni.entities.user.Employee</class>
+        <class>lu.uni.entities.risk.RiskScore</class>
+        <class>lu.uni.entities.client.Address</class>
+        <class>lu.uni.entities.client.BankAccount</class>
+        <class>lu.uni.entities.client.TransactionLog</class>
 
         <properties>
             <!-- JDBC Connection -->

@@ -1,8 +1,8 @@
-package lu.uni.database;
+package lu.uni.entities.database;
 
-import lu.uni.client.Address;
-import lu.uni.user.Client;
-import lu.uni.user.Employee;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.user.Client;
+import lu.uni.entities.user.Employee;
 
 import java.sql.Connection;
 import java.sql.Date;

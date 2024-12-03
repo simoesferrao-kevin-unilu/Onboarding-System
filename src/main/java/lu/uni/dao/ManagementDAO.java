@@ -1,9 +1,9 @@
 package lu.uni.dao;
 
-import lu.uni.client.Address;
-import lu.uni.client.BankAccount;
-import lu.uni.database.DatabaseConnection;
-import lu.uni.user.Client;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.client.BankAccount;
+import lu.uni.entities.database.DatabaseConnection;
+import lu.uni.entities.user.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

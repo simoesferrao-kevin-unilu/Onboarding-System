@@ -1,8 +1,7 @@
-package lu.uni.risk;
-
-import lu.uni.user.Client;
+package lu.uni.entities.risk;
 
 import jakarta.persistence.*;
+import lu.uni.entities.user.Client;
 
 @Entity
 @Table(name = "risk_scores")

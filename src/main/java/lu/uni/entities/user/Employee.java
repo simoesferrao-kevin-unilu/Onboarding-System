@@ -1,9 +1,8 @@
-package lu.uni.user;
-
-import lu.uni.client.Address;
+package lu.uni.entities.user;
 
 import java.sql.Date;
 import jakarta.persistence.*;
+import lu.uni.entities.client.Address;
 
 @Entity
 @Table(name = "employees")

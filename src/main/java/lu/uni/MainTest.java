@@ -1,10 +1,10 @@
 package lu.uni;
 
-import lu.uni.user.Client;
-import lu.uni.client.Address;
-import lu.uni.client.BankAccount;
 import lu.uni.dao.ClientDAO;
-import lu.uni.database.DatabaseConnection;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.client.BankAccount;
+import lu.uni.entities.database.DatabaseConnection;
+import lu.uni.entities.user.Client;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -51,7 +51,7 @@ public class MainTest {
             for (Client c : clients) {
                 System.out.println("Client: " + c.getName());
             }*/
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         

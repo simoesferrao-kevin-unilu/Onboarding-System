@@ -1,7 +1,7 @@
 package lu.uni.dao;
 
-import lu.uni.database.DatabaseConnection;
-import lu.uni.user.Client;
+import lu.uni.entities.database.DatabaseConnection;
+import lu.uni.entities.user.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,12 +9,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+@ApplicationScoped
 public class ClientDAO {
+
+    @PersistenceContext(unitName = "onboardingPU")
+    private EntityManager em;
 
     public ClientDAO() {
     }
 
-    public void addClient(Client client) throws SQLException {
+    public void addClient(Client client) {
+        em.persist(client);
+    }
+
+    /*public void addClient(Client client) throws SQLException {
         String insertAddressSQL = "INSERT INTO addresses (street_number, street, zip, country) VALUES (?, ?, ?, ?)";
         String insertBankAccountSQL = "INSERT INTO bank_accounts (bank_account_balance) VALUES (?)";
         String insertClientSQL = "INSERT INTO clients (name, birth_date, address_id, bank_account_id) VALUES (?, ?, ?, ?)";
@@ -88,7 +100,7 @@ public class ClientDAO {
                         resultSet.getInt("address_id")
                     );
                 }
-            }*/
+            }
         }
         return null;
     }
@@ -108,8 +120,8 @@ public class ClientDAO {
                     resultSet.getDate("birth_date"),
                     resultSet.getInt("address_id")
                 ));
-            }*/
+            }
         }
         return clients;
-    }
+    }*/
 }

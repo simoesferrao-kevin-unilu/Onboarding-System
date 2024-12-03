@@ -1,9 +1,8 @@
-package lu.uni.bean;
+package lu.uni.beans;
 
-import lu.uni.database.Database;
-import lu.uni.risk.RiskScore;
-import lu.uni.user.Client;
-
+import lu.uni.entities.database.Database;
+import lu.uni.entities.risk.RiskScore;
+import lu.uni.entities.user.Client;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import java.util.ArrayList;
