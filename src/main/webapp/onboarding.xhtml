@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Onboarding Process</title>
+    <link rel="stylesheet" href="styles.css" />
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel header="Onboarding Form" styleClass="onboarding-panel">
+            <p:messages id="messages" closable="true" />
+
+            <p:fieldset legend="Personal Information">
+                <p:inputText id="name" value="#{onboardingBean.name}" 
+                             required="true" label="Name" placeholder="Name">
+                    <f:validateLength minimum="2" maximum="50" />
+                </p:inputText>
+                <p:calendar id="birthdate" value="#{onboardingBean.birthdate}" 
+                            required="true" pattern="yyyy-MM-dd" 
+                            label="Birth Date" placeholder="Birthdate" />
+            </p:fieldset>
+
+            <p:fieldset legend="Address Details">
+                <p:inputText id="streetNumber" value="#{onboardingBean.streetNumber}" 
+                             required="true" label="Street Number" placeholder="Enter street number" />
+                <p:inputText id="street" value="#{onboardingBean.street}" 
+                             required="true" label="Street" placeholder="Enter street name" />
+                <p:inputText id="zip" value="#{onboardingBean.zip}" 
+                             required="true" label="ZIP Code" placeholder="Enter ZIP code" />
+                <p:inputText id="country" value="#{onboardingBean.country}" 
+                             required="true" label="Country" placeholder="Enter country name" />
+            </p:fieldset>
+
+            <p:commandButton value="Submit" action="#{onboardingBean.saveClient}" 
+                             update="messages" icon="pi pi-check" />
+        </p:panel>
+    </h:form>
+</h:body>
+
+</html>
