@@ -1,93 +1,90 @@
 package lu.uni;
 
-import lu.uni.dao.ClientDAO;
-import lu.uni.entities.client.Address;
-import lu.uni.entities.client.BankAccount;
-import lu.uni.entities.database.DatabaseConnection;
 import lu.uni.entities.user.Client;
+import lu.uni.entities.client.Address;
+import lu.uni.entities.database.DatabaseConnection;
+import lu.uni.dao.ClientDAO;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.sql.Date;
-import java.util.UUID;
-import jakarta.persistence.*;
-
-
+import java.sql.SQLException;
+import java.util.Scanner;
 
 public class MainTest {
-    
+
     public static void main(String[] args) {
-        // Database connection testing
         try (Connection connection = DatabaseConnection.getConnection()) {
             if (connection != null) {
-                System.out.println("Connected to the database successfully!");
+                System.out.println("Connected to the database successfully!\n");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return; // Exit if the database connection fails
         }
 
+        ClientDAO clientDAO = new ClientDAO();
+        Scanner scanner = new Scanner(System.in);
 
-        try {
-            ClientDAO clientDAO = new ClientDAO();
-    
-            // Create an Address object
-            Address address = new Address(12, "Main Street", 12345, "Luxembourg");
-            Client client = new Client("James B.", Date.valueOf("1980-05-15"), address);
-    
-            // Add the client to the database
-            clientDAO.addClient(client);
-            System.out.println("Client added successfully!");
-    
-            // Retrieve the client by ID
-            /*Client retrievedClient = clientDAO.getClientById(1);
-            if (retrievedClient != null) {
-                System.out.println("Retrieved Client: " + retrievedClient.getName());
+        while (true) {
+            System.out.println("=======================\nOnboarding System\n=======================");
+            System.out.println("1. Onboard a new client");
+            System.out.println("2. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+
+            if (choice == 2) {
+                System.out.println("Exiting the system. Goodbye!");
+                break;
+            } 
+            else if (choice == 1) {
+                try {
+                    // Name
+                    System.out.print("Enter client's name: ");
+                    String name = scanner.nextLine();
+
+                    // Birthdate
+                    System.out.print("Enter client's birth date (yyyy-mm-dd): ");
+                    String birthDateInput = scanner.nextLine();
+                    Date birthDate = Date.valueOf(birthDateInput);
+
+                    // Street number
+                    System.out.print("Enter client's address street number: ");
+                    int streetNumber = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline
+
+                    // Street name
+                    System.out.print("Enter client's address street: ");
+                    String street = scanner.nextLine();
+
+                    // Zip code
+                    System.out.print("Enter client's address zip code: ");
+                    int zip = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline
+
+                    // Country
+                    System.out.print("Enter client's address country: ");
+                    String country = scanner.nextLine();
+
+                    Address address = new Address(streetNumber, street, zip, country);
+                    Client client = new Client(name, birthDate, address);
+
+                    clientDAO.addClient(client);
+                    System.out.println("Client onboarded successfully!\n");
+
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid input format: " + e.getMessage());
+                } catch (Exception e) { // Catch other unforeseen errors
+                    System.out.println("An error occurred: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } 
+            else {
+                System.out.println("Invalid choice. Please try again.\n");
             }
-    
-            // Get all clients
-            ArrayList<Client> clients = clientDAO.getAllClients();
-            for (Client c : clients) {
-                System.out.println("Client: " + c.getName());
-            }*/
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-
-        // Client management testing
-        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("BankingPU");
-        EntityManager em = emf.createEntityManager();
-        ClientDAO clientDAO = new ClientDAO(em);
-
-        Address address = new Address(123, "Main Street", 12345, "Luxembourg");
-        em.getTransaction().begin();
-        em.persist(address);
-        em.getTransaction().commit();
-
-        BankAccount bankAccount = new BankAccount();
-        em.getTransaction().begin();
-        em.persist(bankAccount);
-        em.getTransaction().commit();
-
-        Client client = new Client(
-            "John Doe",
-            Date.valueOf(LocalDate.of(1990, 1, 1)),
-            address
-        );
-        client.setBankAccount(bankAccount);
-        try {
-            clientDAO.addClient(client);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
-        em.getTransaction().begin();
-        em.persist(client);
-        em.getTransaction().commit();
-
-        em.close();
-        emf.close();*/
+        scanner.close();
     }
 }
