@@ -16,13 +16,32 @@ public class RiskScoreBean {
 
     private Database database = new Database();
 
-    public void getAlRiskScores() {
+    public ArrayList<RiskScore> getAlRiskScores() {
         Client client = database.retrieveClientData(clientId);
         if (client != null) {
             alRiskScores = client.getRiskScores();
         }
+
+        return alRiskScores;
     }
 
-    // Getters and Setters
-    // ...
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setAlRiskScores(ArrayList<RiskScore> alRiskScores) {
+        this.alRiskScores = alRiskScores;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
 }

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import lu.uni.entities.client.Address;
 import lu.uni.entities.database.DatabaseConnection;
 
 import java.security.MessageDigest;

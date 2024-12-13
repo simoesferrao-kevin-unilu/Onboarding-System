@@ -5,7 +5,6 @@ import lu.uni.entities.client.BankAccount;
 import lu.uni.entities.risk.RiskScore;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import jakarta.persistence.*;
