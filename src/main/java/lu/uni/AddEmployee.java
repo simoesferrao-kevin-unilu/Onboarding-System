@@ -5,11 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import lu.uni.entities.database.DatabaseConnection;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import lu.uni.entities.database.EncryptionUtil;
 
 public class AddEmployee {
 
@@ -21,7 +18,7 @@ public class AddEmployee {
 
             String name = "Kevin"; // Employee name
             String accessKey = "123456789"; // Employee access key (plaintext)
-            
+
             // Encrypt the access key
             String encryptedAccessKey = encryptAccessKey(accessKey);
 
@@ -29,12 +26,17 @@ public class AddEmployee {
             int addressId = 0;
             String insertAddressSQL = "INSERT INTO addresses (street_number, street, zip, country) VALUES (?, ?, ?, ?)";
             try (PreparedStatement addressStmt = connection.prepareStatement(insertAddressSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
-                addressStmt.setInt(1, 123);
-                addressStmt.setString(2, "Rue de l'Universite");
-                addressStmt.setInt(3, 1234);
-                addressStmt.setString(4, "Luxembourg");
+                String encryptedStreetNumber = EncryptionUtil.encrypt("123");
+                String encryptedStreet = EncryptionUtil.encrypt("Rue de l'Universite");
+                String encryptedZip = EncryptionUtil.encrypt("1234");
+                String country = "Luxembourg";
+
+                addressStmt.setString(1, encryptedStreetNumber);
+                addressStmt.setString(2, encryptedStreet);
+                addressStmt.setString(3, encryptedZip);
+                addressStmt.setString(4, country);
                 addressStmt.executeUpdate();
-    
+
                 try (ResultSet generatedKeys = addressStmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         addressId = generatedKeys.getInt(1); // Get generated address ID
@@ -64,18 +66,8 @@ public class AddEmployee {
 
     private static String encryptAccessKey(String accessKey) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(accessKey.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
+            return lu.uni.entities.database.EncryptionUtil.encrypt(accessKey);
+        } catch (Exception e) {
             throw new RuntimeException("Error encrypting access key", e);
         }
     }

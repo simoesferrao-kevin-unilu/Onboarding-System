@@ -29,7 +29,7 @@ public class Client implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     private ArrayList<RiskScore> riskScores = new ArrayList<>();
-
+    
 
     public Client() {}
 

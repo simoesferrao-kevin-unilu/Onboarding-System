@@ -86,41 +86,42 @@ public class MainTest {
             if (connection != null) {
                 logger.info("Connected to the database successfully!");
             }
-
+    
             Scanner scanner = new Scanner(System.in);
-
+    
             // Employee Authentication
             System.out.println("--------------------------+");
             System.out.println("| Employee Authentication |");
             System.out.println("+-------------------------+");
             System.out.print("Enter your name: ");
             String employeeName = scanner.nextLine();
-
+    
             System.out.print("Enter your access key: ");
             String accessKey = scanner.nextLine();
-
+    
             if (!authenticateEmployee(connection, employeeName, accessKey)) {
                 System.out.println("Authentication failed. Access denied.");
                 scanner.close();
                 return; // Exit if authentication fails
             }
-
+    
             System.out.println("Authentication successful. Welcome, " + employeeName + "!\n");
-
+    
             ClientDAO clientDAO = new ClientDAO();
-
+    
             while (true) {
                 System.out.println("--------------------+");
                 System.out.println("| Onboarding System |");
                 System.out.println("+-------------------+");
                 System.out.println("1. Onboard a new client");
-                System.out.println("2. Exit");
+                System.out.println("2. Retrieve and update a client");
+                System.out.println("3. Exit");
                 System.out.print("Choose an option: ");
-
+    
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline
-
-                if (choice == 2) {
+    
+                if (choice == 3) {
                     logger.info("Employee " + employeeName + " exited the system.");
                     break;
                 } else if (choice == 1) {
@@ -128,33 +129,33 @@ public class MainTest {
                         // Name
                         System.out.print("Enter client's name: ");
                         String name = scanner.nextLine();
-
+    
                         // Birthdate
                         System.out.print("Enter client's birth date (yyyy-mm-dd): ");
                         String birthDateInput = scanner.nextLine();
                         Date birthDate = Date.valueOf(birthDateInput);
-
+    
                         // Street number
                         System.out.print("Enter client's address street number: ");
                         int streetNumber = scanner.nextInt();
                         scanner.nextLine(); // Consume the newline
-
+    
                         // Street name
                         System.out.print("Enter client's address street: ");
                         String street = scanner.nextLine();
-
+    
                         // Zip code
                         System.out.print("Enter client's address zip code: ");
                         int zip = scanner.nextInt();
                         scanner.nextLine(); // Consume the newline
-
+    
                         // Country
                         System.out.print("Enter client's address country: ");
                         String country = scanner.nextLine();
-
+    
                         Address address = new Address(streetNumber, street, zip, country);
                         Client client = new Client(name, birthDate, address);
-
+    
                         clientDAO.addClient(client);
                         logger.info("Client onboarded successfully by employee " + employeeName + ".");
                     } catch (IllegalArgumentException e) {
@@ -162,14 +163,67 @@ public class MainTest {
                     } catch (Exception e) { // Catch other unforeseen errors
                         logger.error("An error occurred while onboarding a client by employee " + employeeName + ".", e);
                     }
+                } else if (choice == 2) {
+                    try {
+                        // Retrieve client by name and birthdate
+                        System.out.print("Enter client's name: ");
+                        String name = scanner.nextLine();
+    
+                        System.out.print("Enter client's birth date (yyyy-mm-dd): ");
+                        String birthDateInput = scanner.nextLine();
+                        Date birthDate = Date.valueOf(birthDateInput);
+    
+                        Client client = clientDAO.getClientByNameAndBirthdate(name, birthDate);
+    
+                        if (client != null) {
+                            System.out.println("Client Details:");
+                            System.out.println("Name: " + client.getName());
+                            System.out.println("Birthdate: " + client.getBirthDate());
+                            System.out.println("Address: " + client.getAddress().getStreetNumber() + ", " + client.getAddress().getStreet() + ", " + client.getAddress().getZip() + ", " + client.getAddress().getCountry());
+                            System.out.println("Bank Account Balance: " + client.getBankAccount().getBalance());
+    
+                            // Update client
+                            System.out.println("Do you want to update the client? (yes/no)");
+                            String updateChoice = scanner.nextLine();
+    
+                            if (updateChoice.equalsIgnoreCase("yes")) {
+                                System.out.print("Enter new street number: ");
+                                int newStreetNumber = scanner.nextInt();
+                                scanner.nextLine();
+    
+                                System.out.print("Enter new street name: ");
+                                String newStreet = scanner.nextLine();
+    
+                                System.out.print("Enter new zip code: ");
+                                int newZip = scanner.nextInt();
+                                scanner.nextLine();
+    
+                                System.out.print("Enter new country: ");
+                                String newCountry = scanner.nextLine();
+    
+                                client.getAddress().setStreetNumber(newStreetNumber);
+                                client.getAddress().setStreet(newStreet);
+                                client.getAddress().setZip(newZip);
+                                client.getAddress().setCountry(newCountry);
+    
+                                clientDAO.updateClient(client);
+                                System.out.println("Client updated successfully.");
+                            }
+                        } else {
+                            System.out.println("Client not found.");
+                        }
+                    } catch (Exception e) {
+                        logger.error("An error occurred while retrieving or updating the client.", e);
+                    }
                 } else {
                     logger.warn("Invalid menu choice by employee " + employeeName + ".");
+                    System.out.println("Invalid choice. Please try again.\n");
                 }
             }
-
+    
             scanner.close();
         } catch (Exception e) {
             logger.error("An unexpected error occurred in the system.", e);
         }
-    }
+    }    
 }

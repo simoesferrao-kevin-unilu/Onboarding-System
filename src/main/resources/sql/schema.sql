@@ -1,9 +1,9 @@
 CREATE TABLE addresses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    street_number INT NOT NULL,
-    street VARCHAR(255) NOT NULL,
-    zip INT NOT NULL,
-    country VARCHAR(100) NOT NULL
+    street_number VARCHAR(255) NOT NULL, -- Encrypted data
+    street VARCHAR(255) NOT NULL,        -- Encrypted data
+    zip VARCHAR(255) NOT NULL,           -- Encrypted data
+    country VARCHAR(100) NOT NULL        -- Plaintext
 );
 
 CREATE TABLE bank_accounts (
@@ -13,7 +13,7 @@ CREATE TABLE bank_accounts (
 
 CREATE TABLE clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,          -- Encrypted data
     birth_date DATE NOT NULL,
     address_id INT,
     bank_account_id INT,
@@ -23,10 +23,10 @@ CREATE TABLE clients (
 
 CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,          -- Plaintext for identification
     birth_date DATE NOT NULL,
     address_id INT,
-    access_key VARCHAR(255) NOT NULL,
+    access_key VARCHAR(255) NOT NULL,    -- Hashed data
     FOREIGN KEY (address_id) REFERENCES addresses(id) ON DELETE SET NULL
 );
 
