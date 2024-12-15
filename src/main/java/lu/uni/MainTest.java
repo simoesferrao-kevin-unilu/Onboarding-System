@@ -43,14 +43,9 @@ public class MainTest {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     String storedHashedKey = resultSet.getString("access_key");
-    
-                    // Debugging
-                    System.out.println("Stored Encrypted Key: " + storedHashedKey);
-    
                     String inputHashedKey = "";
                     try {
                         inputHashedKey = EncryptionUtil.encrypt(accessKey);
-                        System.out.println("Input Encrypted Key: " + inputHashedKey);
                     } catch (Exception e) {
                         logger.error("Error encrypting input access key.", e);
                     }
