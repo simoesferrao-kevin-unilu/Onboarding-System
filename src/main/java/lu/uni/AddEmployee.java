@@ -20,7 +20,7 @@ public class AddEmployee {
             String accessKey = "123456789"; // Employee access key (plaintext)
 
             // Encrypt the access key
-            String encryptedAccessKey = encryptAccessKey(accessKey);
+            String encryptedAccessKey = EncryptionUtil.encrypt(accessKey);
 
             // Insert employee address
             int addressId = 0;
@@ -61,14 +61,6 @@ public class AddEmployee {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private static String encryptAccessKey(String accessKey) {
-        try {
-            return lu.uni.entities.database.EncryptionUtil.encrypt(accessKey);
-        } catch (Exception e) {
-            throw new RuntimeException("Error encrypting access key", e);
         }
     }
 }

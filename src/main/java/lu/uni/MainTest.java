@@ -3,6 +3,7 @@ package lu.uni;
 import lu.uni.entities.user.Client;
 import lu.uni.entities.client.Address;
 import lu.uni.entities.database.DatabaseConnection;
+import lu.uni.entities.database.EncryptionUtil;
 import lu.uni.dao.ClientDAO;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,10 +25,10 @@ public class MainTest {
     private static boolean authenticateEmployee(Connection connection, String name, String accessKey) {
         String sql = "SELECT access_key FROM employees WHERE name = ?";
         boolean isAuthenticated = false;
-
+    
         String clientIp = "Unknown";
         String hostname = "Unknown";
-
+    
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             clientIp = localHost.getHostAddress();
@@ -37,15 +36,25 @@ public class MainTest {
         } catch (UnknownHostException e) {
             logger.error("Unable to determine host information.", e);
         }
-
+    
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
-
+    
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     String storedHashedKey = resultSet.getString("access_key");
-                    String inputHashedKey = encryptAccessKey(accessKey);
-
+    
+                    // Debugging
+                    System.out.println("Stored Encrypted Key: " + storedHashedKey);
+    
+                    String inputHashedKey = "";
+                    try {
+                        inputHashedKey = EncryptionUtil.encrypt(accessKey);
+                        System.out.println("Input Encrypted Key: " + inputHashedKey);
+                    } catch (Exception e) {
+                        logger.error("Error encrypting input access key.", e);
+                    }
+    
                     if (storedHashedKey.equals(inputHashedKey)) {
                         isAuthenticated = true;
                         logger.info(String.format("Authentication successful for employee: %s, IP: %s, Hostname: %s", name, clientIp, hostname));
@@ -59,27 +68,10 @@ public class MainTest {
         } catch (SQLException e) {
             logger.error(String.format("Error during authentication for employee: %s, IP: %s, Hostname: %s", name, clientIp, hostname), e);
         }
-
+    
         return isAuthenticated;
     }
-
-    private static String encryptAccessKey(String accessKey) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(accessKey.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error encrypting access key", e);
-        }
-    }
+    
 
     public static void main(String[] args) {
         try (Connection connection = DatabaseConnection.getConnection()) {
