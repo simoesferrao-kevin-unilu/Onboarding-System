@@ -49,7 +49,7 @@ public class Client implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name.toLowerCase();
     }
 
     public void setName(String name) {

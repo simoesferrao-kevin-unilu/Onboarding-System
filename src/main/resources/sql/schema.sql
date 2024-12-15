@@ -1,9 +1,11 @@
 CREATE TABLE addresses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    street_number VARCHAR(255) NOT NULL, -- Encrypted data
-    street VARCHAR(255) NOT NULL,        -- Encrypted data
-    zip VARCHAR(255) NOT NULL,           -- Encrypted data
-    country VARCHAR(100) NOT NULL        -- Plaintext
+    street_number VARCHAR(255) NOT NULL, -- Encrypted, so use VARCHAR
+    street VARCHAR(255) NOT NULL,        -- Street cannot be NULL
+    zip VARCHAR(255) NOT NULL,           -- Zip code cannot be NULL
+    country VARCHAR(100) NOT NULL,       -- Country cannot be NULL
+    CHECK (LENGTH(street) > 0),          -- Ensure street is non-empty
+    CHECK (LENGTH(country) > 0)          -- Ensure country is non-empty
 );
 
 CREATE TABLE bank_accounts (

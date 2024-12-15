@@ -37,7 +37,27 @@ public class BankAccount {
     }
 
     public void setBalance(BigDecimal balance) {
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Balance cannot be negative.");
+        }
         this.balance = balance;
+    }
+
+    public void deposit(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
+        setBalance(balance.add(amount));
+    }
+
+    public void withdraw(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        if (balance.subtract(amount).compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Insufficient balance for this withdrawal.");
+        }
+        setBalance(balance.subtract(amount));
     }
 
     public List<TransactionLog> getTransactionLogs() {

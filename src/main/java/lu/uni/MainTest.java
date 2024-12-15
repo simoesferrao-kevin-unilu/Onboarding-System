@@ -22,7 +22,7 @@ public class MainTest {
 
     private static final Logger logger = LogManager.getLogger(MainTest.class);
 
-    private static boolean authenticateEmployee(Connection connection, String name, String accessKey) {
+    public static boolean authenticateEmployee(Connection connection, String name, String accessKey) {
         String sql = "SELECT access_key FROM employees WHERE name = ?";
         boolean isAuthenticated = false;
     
