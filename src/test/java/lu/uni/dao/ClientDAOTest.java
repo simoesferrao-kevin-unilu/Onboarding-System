@@ -353,4 +353,20 @@ class ClientDAOTest {
         Client retrievedClient = clientDAO.getClientByNameAndBirthdate("a".repeat(50), Date.valueOf("2000-01-01"));
         assertNotNull(retrievedClient, "Client with maximum input lengths should be added successfully");
     }
+
+    @Test
+    public void testBulkClientInsertPerformance() throws Exception {
+        int bulkSize = 1000;
+        long startTime = System.currentTimeMillis();
+
+        for (int i = 0; i < bulkSize; i++) {
+            Client testClient = createTestClient("Client " + i, 123, BigDecimal.valueOf(1000.00));
+            clientDAO.addClient(testClient);
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time taken for " + bulkSize + " inserts: " + (endTime - startTime) + " ms");
+
+        assertTrue((endTime - startTime) < 20000, "Bulk insert took too long!");
+    }
 }
